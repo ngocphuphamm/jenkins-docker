@@ -31,9 +31,10 @@ node {
     stage('deploy'){
       docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
          def app = docker.image("ngocphupham/docker-demo-nodejs:${commit_id}").push()
-         sh 'docker pull ngocphupham/docker-demo-nodejs:${commit_id}'
-         sh 'docker stop my-app && docker rm my-app'
-         sh 'docker run -d --name my-app -p 3000:3000 ngocphupham/docker-demo-nodejs:${commit_id}'
+         sh "docker pull ngocphupham/docker-demo-nodejs:${commit_id}"
+         sh "docker stop my-app && docker rm my-app"
+         sh "docker run -d --name my-app -p 3000:3000 ngocphupham/docker-demo-nodejs:${commit_id}"
+
       }
    }                                   
 }                                          
