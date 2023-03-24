@@ -27,5 +27,16 @@ node {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
        def app = docker.build("ngocphupham/docker-demo-nodejs:${commit_id}", '.').push()
      }                                     
-   }                                       
+   }         
+   stage('deploy'){
+      steps{
+        script{
+          sh "docker pull ngocphupham/docker-demo-nodejs:${commit_id}"
+          sh "docker rm -fv node-demo"
+          sh "docker rmi ngocphupham/docker-demo-nodejs::curent"
+          sh "docker tag ngocphupham/docker-demo-nodejs:${commit_id} ngocphupham/docker-demo-nodejs::curent"
+          sh "docker run -d --name node-demo -p 2003:2003 ngocphupham/docker-demo-nodejs:current"
+        }
+      }
+   }                              
 }                                          
