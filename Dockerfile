@@ -1,6 +1,8 @@
-FROM node
+FROM node:18
 WORKDIR /app
-ADD . /app
-RUN npm install
-EXPOSE 2000
-CMD npm start
+COPY package.json .
+ARG NODE_ENV
+RUN if [ "$NODE_ENV" = "development" ]; then npm install; else npm install --only=production; fi
+COPY . ./
+EXPOSE 2003
+CMD ["npm", "start"]

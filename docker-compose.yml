@@ -4,10 +4,14 @@ services:
   app:
     build: 
       context: .
-    ports:
-      - "2000:2000"
+      args: 
+        NODE_ENV: production
+    restart: always
     environment:
-      - PORT=2000
+      - NODE_ENV=production
+      - PORT= 2003
+    ports:
+      - 2003:2003
     depends_on: 
       - db
   db:
@@ -15,4 +19,5 @@ services:
     command: --default-authentication-plugin=root
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root/
+    
